@@ -1,0 +1,31 @@
+<?php
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  
+  // Include the database connection file
+  include('database.php');
+  
+  // Get the form fields and sanitize input values
+  $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+  $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+  $email = mysqli_real_escape_string($conn, $_POST['email']);
+  $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
+  $address = mysqli_real_escape_string($conn, $_POST['address']);
+  $city = mysqli_real_escape_string($conn, $_POST['city']);
+  $state = mysqli_real_escape_string($conn, $_POST['state']);
+  $zip = mysqli_real_escape_string($conn, $_POST['zip']);
+  
+  // Insert the data into the Customers table
+  $sql = "INSERT INTO Customers (first_name, last_name, email, phone_number, address, city, state, zip)
+          VALUES ('$first_name', '$last_name', '$email', '$phone_number', '$address', '$city', '$state', '$zip')";
+  
+  if(mysqli_query($conn, $sql)){
+      echo "Record added successfully.";
+  } else{
+      echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+  }
+  
+  // Close the database connection
+  mysqli_close($conn);
+}
+?>
